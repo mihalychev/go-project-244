@@ -2,10 +2,13 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"os"
 
 	"github.com/urfave/cli/v3" // imports as package "cli"
+
+	"code"
 )
 
 func main() {
@@ -18,6 +21,22 @@ func main() {
 				Aliases: []string{"f"},
 				Usage:   "output format (default: \"stylish\")",
 			},
+		},
+		Action: func(_ context.Context, cmd *cli.Command) error {
+			if cmd.Args().Len() != 2 {
+				return cli.ShowAppHelp(cmd)
+			}
+
+			filepath1 := cmd.Args().Get(0)
+			filepath2 := cmd.Args().Get(1)
+			diff, err := code.Gendiff(filepath1, filepath2) // cmd.String("format")
+			if err != nil {
+				return err
+			}
+
+			fmt.Println(diff)
+
+			return nil
 		},
 	}
 
