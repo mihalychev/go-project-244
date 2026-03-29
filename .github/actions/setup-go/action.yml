@@ -1,0 +1,11 @@
+name: Setup Go Environment
+description: Checkout and Setup Go
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v6
+    - uses: actions/setup-go@v6
+      with:
+        go-version-file: go.mod
+        cache: true
