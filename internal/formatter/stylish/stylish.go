@@ -1,4 +1,4 @@
-package formatter
+package stylish
 
 import (
 	"fmt"
@@ -13,7 +13,7 @@ const (
 	indentSize   = 4
 )
 
-func FormatStylish(diffTree []diff.Node) string {
+func Format(diffTree []diff.Node) string {
 	return formatNodes(diffTree, initialDepth)
 }
 

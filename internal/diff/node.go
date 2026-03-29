@@ -11,9 +11,9 @@ const (
 type NodeType string
 
 type Node struct {
-	Key      string
-	Type     NodeType
-	OldValue any
-	NewValue any
-	Children []Node
+	Key      string   `json:"key"`
+	Type     NodeType `json:"type"`
+	OldValue any      `json:"oldValue,omitempty"`
+	NewValue any      `json:"newValue,omitempty"`
+	Children []Node   `json:"children,omitempty"`
 }

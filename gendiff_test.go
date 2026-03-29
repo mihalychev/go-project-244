@@ -9,7 +9,11 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-const stylish = "stylish"
+const (
+	json    = "json"
+	plain   = "plain"
+	stylish = "stylish"
+)
 
 func TestGendiff(t *testing.T) {
 	cases := []struct {
@@ -19,10 +23,16 @@ func TestGendiff(t *testing.T) {
 		filepath2    string
 		expectedPath string
 	}{
-		{"Flat JSON", stylish, "testdata/fixtures/flat_json/file1.json", "testdata/fixtures/flat_json/file2.json", "testdata/fixtures/flat_expected.txt"},
-		{"Flat YAML", stylish, "testdata/fixtures/flat_yaml/file1.yaml", "testdata/fixtures/flat_yaml/file2.yml", "testdata/fixtures/flat_expected.txt"},
-		{"Nested JSON", stylish, "testdata/fixtures/nested_json/file1.json", "testdata/fixtures/nested_json/file2.json", "testdata/fixtures/nested_expected.txt"},
-		{"Nested YAML", stylish, "testdata/fixtures/nested_yaml/file1.yaml", "testdata/fixtures/nested_yaml/file2.yml", "testdata/fixtures/nested_expected.txt"},
+		{"Stylish Flat JSON", stylish, "testdata/fixtures/flat_json/file1.json", "testdata/fixtures/flat_json/file2.json", "testdata/fixtures/expected/stylish/flat_expected.txt"},
+		{"Stylish Flat YAML", stylish, "testdata/fixtures/flat_yaml/file1.yaml", "testdata/fixtures/flat_yaml/file2.yml", "testdata/fixtures/expected/stylish/flat_expected.txt"},
+		{"Stylish Nested JSON", stylish, "testdata/fixtures/nested_json/file1.json", "testdata/fixtures/nested_json/file2.json", "testdata/fixtures/expected/stylish/nested_expected.txt"},
+		{"Stylish Nested YAML", stylish, "testdata/fixtures/nested_yaml/file1.yaml", "testdata/fixtures/nested_yaml/file2.yml", "testdata/fixtures/expected/stylish/nested_expected.txt"},
+
+		{"Plain Nested JSON", plain, "testdata/fixtures/nested_json/file1.json", "testdata/fixtures/nested_json/file2.json", "testdata/fixtures/expected/plain/nested_expected.txt"},
+		{"Plain Nested YAML", plain, "testdata/fixtures/nested_yaml/file1.yaml", "testdata/fixtures/nested_yaml/file2.yml", "testdata/fixtures/expected/plain/nested_expected.txt"},
+
+		{"JSON Nested JSON", json, "testdata/fixtures/nested_json/file1.json", "testdata/fixtures/nested_json/file2.json", "testdata/fixtures/expected/json/nested_expected.json"},
+		{"JSON Nested YAML", json, "testdata/fixtures/nested_yaml/file1.yaml", "testdata/fixtures/nested_yaml/file2.yml", "testdata/fixtures/expected/json/nested_expected.json"},
 	}
 
 	for _, tc := range cases {
@@ -57,7 +67,7 @@ func TestGendiff_FileDoesNotExist(t *testing.T) {
 }
 
 func TestGendiff_UnsupportedFileExtension(t *testing.T) {
-	_, err := Gendiff("", "testdata/fixtures/flat_expected.txt", "testdata/fixtures/flat_json/file2.json")
+	_, err := Gendiff("", "testdata/fixtures/expected/stylish/flat_expected.txt", "testdata/fixtures/flat_json/file2.json")
 	require.Error(t, err)
 	assert.EqualError(t, err, "unsupported file extension: .txt")
 }
