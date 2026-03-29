@@ -6,7 +6,7 @@ import (
 	"code/internal/parser"
 )
 
-func Gendiff(format, filepath1, filepath2 string) (string, error) {
+func GenDiff(filepath1, filepath2, format string) (string, error) {
 	fileData1, err := parser.ParseFile(filepath1)
 	if err != nil {
 		return "", err

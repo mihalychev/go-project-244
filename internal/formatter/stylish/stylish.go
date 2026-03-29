@@ -11,6 +11,8 @@ import (
 const (
 	initialDepth = 1
 	indentSize   = 4
+
+	lineTemplate = "%s%s: %s"
 )
 
 func Format(diffTree []diff.Node) string {
@@ -24,7 +26,7 @@ func formatNodes(nodes []diff.Node, depth int) string {
 		switch node.Type {
 		case diff.Added:
 			lines = append(lines,
-				fmt.Sprintf("%s%s: %s",
+				fmt.Sprintf(lineTemplate,
 					nodePrefix(depth, "+"),
 					node.Key,
 					formatValue(node.NewValue, depth+1),
@@ -33,7 +35,7 @@ func formatNodes(nodes []diff.Node, depth int) string {
 
 		case diff.Removed:
 			lines = append(lines,
-				fmt.Sprintf("%s%s: %s",
+				fmt.Sprintf(lineTemplate,
 					nodePrefix(depth, "-"),
 					node.Key,
 					formatValue(node.OldValue, depth+1),
@@ -42,14 +44,14 @@ func formatNodes(nodes []diff.Node, depth int) string {
 
 		case diff.Changed:
 			lines = append(lines,
-				fmt.Sprintf("%s%s: %s",
+				fmt.Sprintf(lineTemplate,
 					nodePrefix(depth, "-"),
 					node.Key,
 					formatValue(node.OldValue, depth+1),
 				),
 			)
 			lines = append(lines,
-				fmt.Sprintf("%s%s: %s",
+				fmt.Sprintf(lineTemplate,
 					nodePrefix(depth, "+"),
 					node.Key,
 					formatValue(node.NewValue, depth+1),
@@ -58,7 +60,7 @@ func formatNodes(nodes []diff.Node, depth int) string {
 
 		case diff.Unchanged:
 			lines = append(lines,
-				fmt.Sprintf("%s%s: %s",
+				fmt.Sprintf(lineTemplate,
 					nodePrefix(depth, " "),
 					node.Key,
 					formatValue(node.OldValue, depth+1),
@@ -67,7 +69,7 @@ func formatNodes(nodes []diff.Node, depth int) string {
 
 		case diff.Nested:
 			lines = append(lines,
-				fmt.Sprintf("%s%s: %s",
+				fmt.Sprintf(lineTemplate,
 					nodePrefix(depth, " "),
 					node.Key,
 					formatNodes(node.Children, depth+1),

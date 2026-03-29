@@ -29,7 +29,7 @@ func main() {
 
 			filepath1 := cmd.Args().Get(0)
 			filepath2 := cmd.Args().Get(1)
-			diff, err := code.Gendiff(cmd.String("format"), filepath1, filepath2)
+			diff, err := code.GenDiff(filepath1, filepath2, cmd.String("format"))
 			if err != nil {
 				return err
 			}
